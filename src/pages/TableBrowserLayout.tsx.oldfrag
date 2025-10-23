@@ -1,0 +1,85 @@
+﻿    <path d="M4 3a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3h-2V3H6v3H4V3z" />
+    <path d="M4 8a2 2 0 0 0-2 2v5h3v-3h10v3h3v-5a2 2 0 0 0-2-2H4z" />
+    <path d="M6 14v4h8v-4H6z" />
+  </svg>
+);
+  getTypeFor: (col: string) => ScalarType;
+  getOpsFor: (t: ScalarType) => { value: AnyOp; label: string }[];
+  onClearFilter: () => void;
+  appliedCount: number;
+
+  /** Seleção/erro */
+  selectedCount: number;
+  onClearSelection: () => void;
+  error: string | null;
+
+  /** Tabela */
+  columns: string[];
+  ACTIONS_COL_KEY: string;
+  visibleRows: Row[];
+  selectedRows: Set<number>;
+  onToggleAll: () => void;
+  onToggleRow: (index: number) => void;
+  onSort: (column: string) => void;
+  getEditPath: (r: Row) => string;
+  onDesigner: (r: Row) => void;
+  onPrint: (r: Row) => void;
+  onSendToRepair: (r: Row) => void;
+  getRowId: (r: Row) => string | number;
+  stringifyCell: (v: any) => string;
+  formatCell: (v: any) => string;
+
+  /** Export */
+  canExport: boolean;
+  onExportCSV: () => void;
+  onExportJSON: () => void;
+  /** Criação */
+  canCreate?: boolean;
+  onCreate?: () => void;
+
+  /** Paginação */
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  onChangePageSize: (n: number) => void;
+  gotoFirst: () => void;
+  gotoPrev: () => void;
+  gotoNext: () => void;
+  gotoLast: () => void;
+
+  /** Footer */
+  rawCount: number;
+  loading: boolean;
+  /** Trava de edição */
+  editMode?: boolean;
+  onToggleEditMode?: () => void;
+};
+
+export default function TableBrowserLayout(props: Props) {
+  const {
+    // topo
+    tables, table, onChangeTable, effectiveCount,
+    globalSearch, onChangeSearch, onApplyServerFilter, onRunDiagnostics,
+
+    // filtro simples
+    columnMeta, draft, setDraft, getTypeFor, getOpsFor, onClearFilter, appliedCount,
+
+    // seleção/erro
+    selectedCount, onClearSelection, error,
+
+    // tabela
+    columns, ACTIONS_COL_KEY, visibleRows, selectedRows,
+    onToggleAll, onToggleRow, onSort, getEditPath, onDesigner, onPrint, onSendToRepair,
+    getRowId, stringifyCell, formatCell,
+
+    // export
+    canExport, onExportCSV, onExportJSON,
+    // criação
+    canCreate = false, onCreate,
+
+    // paginação
+    page, pageSize, totalPages, onChangePageSize, gotoFirst, gotoPrev, gotoNext, gotoLast,
+
+    // footer
+    rawCount, loading,
+    // trava de edição
